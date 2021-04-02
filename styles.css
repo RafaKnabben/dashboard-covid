@@ -1,6 +1,20 @@
+#title {
+    text-align: center;
+}
+
+#country-title {
+    margin-left: 20%;
+}
+
 .widgetBRA {
-    margin: 3em;
     border: solid 2px black;
     width: 11em;
     height: 11em;
+    text-align: center;
+    margin-top: 1em;
+}
+
+#widgetsBRA {
+    display: flex;
+    justify-content: space-around;
 }
