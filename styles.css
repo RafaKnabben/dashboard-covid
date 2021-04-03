@@ -1,9 +1,22 @@
+#container {
+    width: 900px;
+    margin: 0 auto;
+}
+
 #title {
     text-align: center;
 }
 
 #country-title {
-    margin-left: 20%;
+    text-align: center;
+}
+
+#confirmed-cases {
+    margin: 0;
+}
+
+#confirmed-deaths {
+    margin: 0;
 }
 
 .widgetBRA {
@@ -14,7 +27,7 @@
     margin-top: 1em;
 }
 
-#widgetsBRA {
+#set-widgets {
     display: flex;
     justify-content: space-around;
 }
