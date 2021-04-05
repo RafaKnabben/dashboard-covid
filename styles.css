@@ -31,3 +31,7 @@
     display: flex;
     justify-content: space-around;
 }
+
+/* #option-not-displayed {
+    display: none;
+} */

@@ -4,33 +4,61 @@ const totalBra = document.querySelector("#totalBra");
 const newDeathsBra = document.querySelector("#newDeathsBra");
 const deathBra = document.querySelector("#deathBRA");
 const activeBra = document.querySelector("#activeBRA");
-const listCountries = document.querySelector("#countries-list");
+const listCountries = document.querySelector(".countries-list");
 
-const countryList = async function () {
-    const list = await axios(`https://api.covid19api.com/countries`);
+const setCountryAPI = function () {
+    const list = axios(`https://api.covid19api.com/countries`);
+    return list;
+}
 
-    const arrCountries = list.data;
+const setCountriesList = async function () {
+    const fetchCountries = await setCountryAPI();
+    const arrCountries = fetchCountries.data;
     
-try { 
-    // arrCountries.forEach(item => listCountries.innerHTML = `<option>${item.Country}</option>`);
-    for(i = 0; i <= arrCountries.length; i++) {
-    listCountries.innerHTML = `<option>${arrCountries[i].Country}</option>`;
+    try { 
+        arrCountries.forEach((i) => {
+            // listCountries.option(new `${i.Country}`, `${i.Slug}`);
+            let item = document.createElement("option");
+            item.setAttribute("class", "list-item");
+            item.setAttribute("value", `${i.Slug}`);
+            item.append(i.Country);
+            listCountries.appendChild(item);
+        });
+    } catch {
+        console.error("Apparently it is not possible to list the countries.");
     }
-} catch {
-    console.error("Apparently it is not possible to list the countries.");
-}
 }
 
-countryList();
+setCountriesList();
 
-const fetchBra = function () {
+function selection() {
+    document.getElementsByClassName("list-item").addEventListener("change", selectionEffect);
+}
+
+function selectionEffect() {
+    const item = document.querySelector(".list-item");
+
+    return item.value;
+}
+
+window.addEventListener("click", selectionEffect);
+
+    // // const option = listCountries.children
+
+    // , function () {
+    //     const listItem = listCountries.querySelectorAll(".list-item");
+
+    //     console.dir(listItem.value);
+    // });
+
+const fetchData = function () {
     const res = axios(`https://api.covid19api.com/total/country/brazil`);
     return res;
 }
 
-const selectBra = async function () {
+const selectData = async function () {
 
-    const sel = await fetchBra();
+    const sel = await fetchData();
 
     const totalCasesBra = sel.data[sel.data.length -1].Confirmed;
     const casesNewBra = totalCasesBra - sel.data[sel.data.length -2].Confirmed;
@@ -46,4 +74,4 @@ const selectBra = async function () {
     activeBra.innerHTML = `<p>${totalActiveBra}</p>`;
 }
 
-selectBra();
+selectData();
