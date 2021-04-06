@@ -4,7 +4,7 @@ const totalBra = document.querySelector("#totalBra");
 const newDeathsBra = document.querySelector("#newDeathsBra");
 const deathBra = document.querySelector("#deathBRA");
 const activeBra = document.querySelector("#activeBRA");
-const listCountries = document.querySelector(".countries-list");
+const listCountries = document.querySelector("#countries-list");
 
 const setCountryAPI = function () {
     const list = axios(`https://api.covid19api.com/countries`);
@@ -17,8 +17,7 @@ const setCountriesList = async function () {
     
     try { 
         arrCountries.forEach((i) => {
-            // listCountries.option(new `${i.Country}`, `${i.Slug}`);
-            let item = document.createElement("option");
+            const item = document.createElement("option");
             item.setAttribute("class", "list-item");
             item.setAttribute("value", `${i.Slug}`);
             item.append(i.Country);
@@ -31,34 +30,12 @@ const setCountriesList = async function () {
 
 setCountriesList();
 
-function selection() {
-    document.getElementsByClassName("list-item").addEventListener("change", selectionEffect);
-}
+window.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-function selectionEffect() {
-    const item = document.querySelector(".list-item");
+    const option = listCountries.options[listCountries.selectedIndex].value;
 
-    return item.value;
-}
-
-window.addEventListener("click", selectionEffect);
-
-    // // const option = listCountries.children
-
-    // , function () {
-    //     const listItem = listCountries.querySelectorAll(".list-item");
-
-    //     console.dir(listItem.value);
-    // });
-
-const fetchData = function () {
-    const res = axios(`https://api.covid19api.com/total/country/brazil`);
-    return res;
-}
-
-const selectData = async function () {
-
-    const sel = await fetchData();
+    const sel = await axios(`https://api.covid19api.com/total/country/${option}`);
 
     const totalCasesBra = sel.data[sel.data.length -1].Confirmed;
     const casesNewBra = totalCasesBra - sel.data[sel.data.length -2].Confirmed;
@@ -72,6 +49,31 @@ const selectData = async function () {
     newDeathsBra.innerHTML = `<p>${deathsNewBra}</p>`;
     deathBra.innerHTML = `<p>${totalDeathBra}</p>`;
     activeBra.innerHTML = `<p>${totalActiveBra}</p>`;
-}
+    // return console.log(option);
+})
 
-selectData();
+
+// const fetchData = function () {
+//     const res = axios(`https://api.covid19api.com/total/country/brazil`);
+//     return res;
+// }
+
+// const selectData = async function () {
+
+//     const sel = await fetchData();
+
+//     const totalCasesBra = sel.data[sel.data.length -1].Confirmed;
+//     const casesNewBra = totalCasesBra - sel.data[sel.data.length -2].Confirmed;
+//     const totalDeathBra = sel.data[sel.data.length -1].Deaths;
+//     const deathsNewBra = totalDeathBra - sel.data[sel.data.length -2].Deaths;
+//     const totalActiveBra = sel.data[sel.data.length -1].Active;
+
+//     selectedCountry.innerHTML = `${sel.data[sel.data.length -1].Country}`;
+//     newCasesBra.innerHTML = `<p>${casesNewBra}</p>`;
+//     totalBra.innerHTML = `<p>${totalCasesBra}</p>`;
+//     newDeathsBra.innerHTML = `<p>${deathsNewBra}</p>`;
+//     deathBra.innerHTML = `<p>${totalDeathBra}</p>`;
+//     activeBra.innerHTML = `<p>${totalActiveBra}</p>`;
+// }
+
+// selectData();
